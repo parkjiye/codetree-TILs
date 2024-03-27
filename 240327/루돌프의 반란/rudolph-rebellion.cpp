@@ -195,6 +195,16 @@ void interaction(int cur_sa, int nxt_sa, int dir, bool crushed)
         next_y = nxt.y + sy[dir];
     }
 
+    if (next_x < 0 || next_x >= N || next_y < 0 || next_y >= N)
+    {
+        sa[cur_sa].x = nxt.x;
+        sa[cur_sa].y = nxt.y;
+        myMap[nxt.x][nxt.y] = cur_sa;
+        sa[nxt_sa].dead = true;
+        return;
+    }
+
+
     if (myMap[next_x][next_y] == 0)
     {
         sa[nxt_sa].x = next_x;
