@@ -42,6 +42,7 @@ struct eaten_sushi
 };
 
 int L, Q;
+int cnt = 0;
 
 map<string, vector<waiting_sushi>> m;
 map<string, people> p;
@@ -68,6 +69,7 @@ int main()
 
             eaten_sushi cur = pq.top();
             pq.pop();
+            cnt -= 1;
 
             p[cur.name].eaten += 1;
 
@@ -92,6 +94,7 @@ int main()
                 {
                     et = t + (p[n].pos - x);
                     pq.push(eaten_sushi(et, n));
+                    cnt += 1;
                 }
                 else if (p[n].pos == x)
                 {
@@ -106,17 +109,20 @@ int main()
                 {
                     et = t + (L - x) + p[n].pos;
                     pq.push(eaten_sushi(et, n));
+                    cnt += 1;
                 }
             }
             else if (m.find(n) != m.end())
             {
                 m[n].push_back(waiting_sushi(t, x));
+                cnt += 1;
             }
             else
             {
                 vector<waiting_sushi> v;
                 v.push_back(waiting_sushi(t, x));
                 m.insert({n, v});
+                cnt += 1;
             }
         }
         // 손님 입장
@@ -151,6 +157,7 @@ int main()
                         {
                             p.erase(n);
                         }
+                        cnt -= 1;
                     }
                     else
                     {
@@ -165,10 +172,8 @@ int main()
         // 출력
         else
         {
-            cout << p.size() << " " << m.size() + pq.size() << "\n";
+            cout << p.size() << " " << cnt << "\n";
         }
-
-        // cur_time += 1;
 
         // cout << "round " << q << "\n";
 
