@@ -6,8 +6,6 @@
 
 using namespace std;
 
-// 없어지기로 예약된 초밥들
-
 struct people
 {
     int pos;
@@ -175,26 +173,5 @@ int main()
             cout << p.size() << " " << cnt << "\n";
         }
 
-        // cout << "round " << q << "\n";
-
-        // for (auto it = m.begin(); it != m.end(); it++)
-        // {
-        //     vector<waiting_sushi> v = it->second;
-
-        //     cout << it->first << " ";
-        // }
-        // cout << "\n";
-
-        // for (auto it = p.begin(); it != p.end(); it++)
-        // {
-        //     cout << it->first << " " << it->second.eaten << " " << it->second.expected << "\n";
-        // }
-
-        // cout << "pq size " << pq.size() << "\n";
-
-        // if (!pq.empty())
-        // {
-        //     cout << pq.top().name << " " << pq.top().eaten_time << "\n";
-        // }
     }
 }
