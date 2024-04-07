@@ -174,7 +174,10 @@ void broke_belt() {
 	}
 
 	for (int i = 1; i < M; i++) {
-		int ch_idx = (b_num + i) % M;
+		int ch_idx = b_num + i;
+		if (ch_idx > M) {
+			ch_idx %= M;
+		}
 		if (!b[ch_idx].broken) {
 			
 			m[b[ch_idx].back_box].b = b[b_num].front_box;
