@@ -148,7 +148,7 @@ void check_box() {
 
 void print_all() {
 	for (auto it = m.begin(); it != m.end(); it++) {
-		cout << it->first << " " << it->second.f << " " << it->second.b << "\n";
+		cout << it->first << " " << it->second.f << " " << it->second.b << " "<<it->second.b_idx<<"\n";
 	}
 	for (int i = 1; i <= M; i++) {
 		cout << b[i].front_box << " " << b[i].back_box << "\n";
@@ -177,17 +177,17 @@ void broke_belt() {
 		if (!b[b_num + i].broken) {
 			int ch_idx = (b_num + i)%M;
 
-			int idx = b[b_num].front_box;
-
 			m[b[ch_idx].back_box].b = b[b_num].front_box;
 			m[b[b_num].front_box].f = b[ch_idx].back_box;
 
 			b[ch_idx].back_box = b[b_num].back_box;
 
+			int idx = b[b_num].front_box;
 			while (b[b_num].cnts!=0) {
 				m[idx].b_idx = ch_idx;
 				idx = m[idx].b;
 				b[b_num].cnts -= 1;
+				b[ch_idx].cnts += 1;
 			}
 
 			b[b_num].back_box = -1;
