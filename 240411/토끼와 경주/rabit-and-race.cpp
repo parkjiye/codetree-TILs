@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <map>
 #define FASTIO() ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL)
 
 using namespace std;
@@ -74,21 +75,22 @@ vector<rabbit> r;
 
 int dx[4] = { -1, 1, 0, 0 };
 int dy[4] = { 0, 0, -1, 1 };
-long jump_dist[2005];
+map<int, long> jump_dist;
 
 p jump() {
 	vector<p> v;
 	for (int k = 0; k < 4; k++) {
 		rabbit cur = r[0];
+		int d = jump_dist[cur.idx];
 		long next_x, next_y;
 
 		//상
 		if (k == 0) {
-			if (cur.x - cur.d >= 0) {
-				next_x = cur.x - cur.d;
+			if (cur.x - d >= 0) {
+				next_x = cur.x - d;
 			}
 			else {
-				long jump_cnt = cur.d % ((N - 1) * 2);
+				long jump_cnt = d % ((N - 1) * 2);
 
 				if (jump_cnt == 0) {
 					next_x = cur.x;
@@ -114,11 +116,11 @@ p jump() {
 		}
 		//하
 		else if (k == 1) {
-			if (cur.x + cur.d < N) {
-				next_x = cur.x + cur.d;
+			if (cur.x + d < N) {
+				next_x = cur.x + d;
 			}
 			else {
-				long jump_cnt = cur.d % ((N - 1) * 2);
+				long jump_cnt = d % ((N - 1) * 2);
 
 				if (jump_cnt == 0) {
 					next_x = cur.x;
@@ -143,11 +145,11 @@ p jump() {
 		}
 		//좌
 		else if (k == 2) {
-			if (cur.y - cur.d >= 0) {
-				next_y = cur.y - cur.d;
+			if (cur.y - d >= 0) {
+				next_y = cur.y - d;
 			}
 			else {
-				long jump_cnt = cur.d % ((M - 1) * 2);
+				long jump_cnt = d % ((M - 1) * 2);
 
 				if (jump_cnt == 0) {
 					next_y = cur.y;
@@ -173,11 +175,11 @@ p jump() {
 		}
 		//우
 		else {
-			if (cur.y + cur.d < M) {
-				next_y = cur.y + cur.d;
+			if (cur.y + d < M) {
+				next_y = cur.y + d;
 			}
 			else {
-				long jump_cnt = cur.d % ((M - 1) * 2);
+				long jump_cnt = d % ((M - 1) * 2);
 
 				if (jump_cnt == 0) {
 					next_y = cur.y;
@@ -236,6 +238,7 @@ int main() {
 				cin >> x >> y;
 
 				r.push_back(rabbit(x, y, 0, 0, 0, 0, 0));
+				jump_dist.insert({ x, y });
 			}
 		}
 		else if (cmd == 200) {
@@ -280,12 +283,8 @@ int main() {
 			int pid;
 			long L;
 			cin >> pid >> L;
-			for (int p = 0; p < P; p++) {
-				if (r[p].idx == pid) {
-					r[p].d *= L;
-					break;
-				}
-			}
+			
+			jump_dist[pid] *= L;
 		}
 		else {
 			sort(r.begin(), r.end(), top_rabbit_final);
