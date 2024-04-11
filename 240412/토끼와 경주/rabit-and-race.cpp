@@ -93,133 +93,30 @@ p jump(rabbit mvp) {
 	vector<p> v;
 
 	for (int k = 0; k < 4; k++) {
-		rabbit cur = mvp;
-		long d = mvp.dst_jump;
-		long next_x, next_y;
+		long next_x = mvp.x + dx[k] * mvp.dst_jump;
+		long next_y = mvp.y + dy[k] * mvp.dst_jump;
 
-		//상
-		if (k == 0) {
-			if (cur.x - d >= 0) {
-				next_x = cur.x - d;
+		if (k == 0 || k == 1) {
+			next_x = abs(next_x);
+			long limit = N * 2 - 2;
+			next_x %= limit;
+
+			if (next_x >= N) {
+				next_x = 2 * N - 2 - next_x;
 			}
-			else {
-				long jump_cnt = d % ((N - 1) * 2);
-
-				if (jump_cnt == 0) {
-					next_x = cur.x;
-				}
-				else if (jump_cnt > cur.x) {
-					jump_cnt -= cur.x;
-					cur.x = 0;
-
-					if (jump_cnt >= N) {
-						jump_cnt -= (N - 1);
-						next_x = (N - 1) - jump_cnt;
-					}
-					else {
-						next_x = jump_cnt;
-					}
-				}
-				else {
-					next_x = cur.x - jump_cnt;
-				}
-			}
-
-			v.push_back(p(next_x, cur.y));
 		}
-		//하
-		else if (k == 1) {
-			if (cur.x + d < N) {
-				next_x = cur.x + d;
-			}
-			else {
-				long jump_cnt = d % ((N - 1) * 2);
-
-				if (jump_cnt == 0) {
-					next_x = cur.x;
-				}
-				else if (jump_cnt > N - cur.x - 1) {
-					jump_cnt -= (N - cur.x - 1);
-					cur.x = N - 1;
-
-					if (jump_cnt >= N) {
-						jump_cnt -= (N - 1);
-						next_x = (N - 1 - jump_cnt);
-					}
-					else {
-						next_x = cur.x - jump_cnt;
-					}
-				}
-				else {
-					next_x = cur.x + jump_cnt;
-				}
-			}
-			v.push_back(p(next_x, cur.y));
-		}
-		//좌
-		else if (k == 2) {
-			if (cur.y - d >= 0) {
-				next_y = cur.y - d;
-			}
-			else {
-				long jump_cnt = d % ((M - 1) * 2);
-
-				if (jump_cnt == 0) {
-					next_y = cur.y;
-				}
-				else if (jump_cnt > cur.y) {
-					jump_cnt -= cur.y;
-					cur.y = 0;
-
-					if (jump_cnt >= M) {
-						jump_cnt -= (M - 1);
-						next_y = (M - 1) - jump_cnt;
-					}
-					else {
-						next_y = jump_cnt;
-					}
-				}
-				else {
-					next_y = cur.y - jump_cnt;
-				}
-			}
-
-			v.push_back(p(cur.x, next_y));
-		}
-		//우
 		else {
-			if (cur.y + d < M) {
-				next_y = cur.y + d;
-			}
-			else {
-				long jump_cnt = d % ((M - 1) * 2);
+			next_y = abs(next_y);
+			long limit = M * 2 - 2;
+			next_y %= limit;
 
-				if (jump_cnt == 0) {
-					next_y = cur.y;
-				}
-				else if (jump_cnt > M - cur.y - 1) {
-					jump_cnt -= (M - cur.y - 1);
-					cur.y = M - 1;
-
-					if (jump_cnt >= M) {
-						jump_cnt -= (M - 1);
-						next_y = (M - 1 - jump_cnt);
-					}
-					else {
-						next_y = cur.y - jump_cnt;
-					}
-				}
-				else {
-					next_y = cur.y + jump_cnt;
-				}
+			if (next_y >= M) {
+				next_y = 2 * M - 2 - next_y;
 			}
-			v.push_back(p(cur.x, next_y));
 		}
+		v.push_back(p(next_x, next_y));
+		
 	}
-
-	//  for (int i = 0; i < 4; i++) {
-	//  	cout << v[i].x << " " << v[i].y << "\n";
-	//  }
 
 	sort(v.begin(), v.end());
 
