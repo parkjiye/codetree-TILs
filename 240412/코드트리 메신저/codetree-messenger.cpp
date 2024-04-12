@@ -59,11 +59,13 @@ int main()
 			for (int i = 0; i < child[c1p].size(); i++) {
 				if (child[c1p][i] == c1) {
 					child[c1p][i] = c2;
+					break;
 				}
 			}
 			for (int i = 0; i < child[c2p].size(); i++) {
 				if (child[c2p][i] == c2) {
 					child[c2p][i] = c1;
+					break;
 				}
 			}
 
