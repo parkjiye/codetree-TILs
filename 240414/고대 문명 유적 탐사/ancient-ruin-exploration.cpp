@@ -376,8 +376,7 @@ int main()
             break;
 
         // 유물 획득
-        int idx = 1;
-        while (idx <= 3)
+        while (1)
         {
             int s = erase();
 
@@ -392,8 +391,6 @@ int main()
                 break;
             }
             //print_all();
-
-            idx += 1;
         }
         cout << answer << " ";
     }
