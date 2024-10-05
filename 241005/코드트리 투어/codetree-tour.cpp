@@ -12,7 +12,7 @@ using namespace std;
 int n, m;
 int myMap[2002][2002] = { 0, };
 vector<int> dist;
-set<int> cancel;
+set<int> good_idx;
 
 struct t
 {
@@ -141,13 +141,18 @@ void createGoods()
 	cin >> i >> r >> d;
 
 	goods.push(Good(i, r, d, dist[d]));
+	good_idx.insert(i);
 }
 
 void cancelGoods()
 {
 	int id;
 	cin >> id;
-	cancel.insert(id);
+
+	if (good_idx.find(id) != good_idx.end())
+	{
+		good_idx.erase(id);
+	}
 }
 
 int sellGoods()
@@ -156,7 +161,7 @@ int sellGoods()
 	{
 		Good cur = goods.top();
 		//삭제된 상품?
-		if (cancel.find(cur.idx) != cancel.end()) {
+		if (good_idx.find(cur.idx) == good_idx.end()) {
 			goods.pop();
 			continue;
 		}
@@ -187,7 +192,7 @@ void changeStart()
 		Good cur = goods.top();
 		goods.pop();
 
-		if (cancel.find(cur.idx) != cancel.end()) continue;
+		if (good_idx.find(cur.idx) == good_idx.end()) continue;
 		
 		temp.push(Good(cur.idx, cur.revenue, cur.dest, dist[cur.dest]));
 		
