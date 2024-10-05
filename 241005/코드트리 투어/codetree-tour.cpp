@@ -97,7 +97,7 @@ void createLand()
 	{
 		cin >> v >> u >> w;
 
-		if (v == u) continue;
+		//if (v == u) continue;
 
 		if (v > u) line.push_back(t(u, v, w));
 		else line.push_back(t(v, u, w));
