@@ -31,7 +31,7 @@ struct guest
 };
 
 map<string, vector<sushi>> noGuestSushi;
-map<string, vector<sushi>> GuestSushi;
+map<string, queue<sushi>> GuestSushi;
 map<string, guest> guestlist;
 set<string> cur_guests;
 
@@ -52,7 +52,7 @@ void makeSushi()
 	}
 	else
 	{
-		GuestSushi[name].push_back(sushi(pos, t));
+		GuestSushi[name].push(sushi(pos, t));
 	}
 }
 
@@ -78,7 +78,7 @@ void welcomeGuset()
 			if ((cur.pos + (t - cur.t)) % L == pos && n>0) n--;
 			else
 			{
-				GuestSushi[name].push_back(sushi((cur.pos + (t - cur.t)) % L, t));
+				GuestSushi[name].push(sushi((cur.pos + (t - cur.t)) % L, t));
 			}
 		}
 
@@ -105,17 +105,11 @@ void takePicture()
 	{
 		if (cur_guests.find(it->first) != cur_guests.end())
 		{
-			queue<sushi> q;
-			vector<sushi> v = GuestSushi[it->first];
+			queue<sushi> q= GuestSushi[it->first];
+			queue<sushi> temp;
+			GuestSushi[it->first] = temp;
 
 			guest g = guestlist[it->first];
-
-			for (int i = 0; i < v.size(); i++)
-			{
-				q.push(v[i]);
-			}
-
-			GuestSushi[it->first].clear();
 
 			while (!q.empty())
 			{
@@ -132,22 +126,21 @@ void takePicture()
 					if (cur_dist < 0) cur_dist = cur_dist + L;
 
 					if (cur_dist <= t - cur.t) {
-						//cout << "먹은 스시 " << cur.pos << " " << cur.t << "\n";
 						g.n--;
 					}
-					else GuestSushi[it->first].push_back(cur);
+					else temp.push(cur);
 				}
 			}
 
 			if (g.n == 0)
 			{
-				leftover += GuestSushi[it->first].size();
-				GuestSushi[it->first].clear();
+				leftover += temp.size()+ GuestSushi[it->first].size();
 				cur_guests.erase(it->first);
 				guestlist.erase(it->first);
 			}
 			else
 			{
+				GuestSushi[it->first] = temp;
 				guestlist[it->first].n = g.n;
 			}
 		}
