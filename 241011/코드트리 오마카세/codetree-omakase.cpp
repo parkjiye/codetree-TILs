@@ -48,12 +48,43 @@ long leftover = 0;
 int Q;
 int guests = 0;
 
+void moveSushi(long t)
+{
+	while (!pq.empty())
+	{
+		if (pq.top().expected > t) break;
+
+		eaten_sushi cur = pq.top();
+		pq.pop();
+
+		//cout << cur.name << " " << cur.expected << "\n";
+
+		guest g = guestlist[cur.name];
+
+		if (g.out) leftover += 1;
+		else if (!g.out && g.n > 0)
+		{
+			//cout << cur.expected << "에 스시 먹는 " << cur.name << "\n";
+			guestlist[cur.name].n -= 1;
+
+			if (guestlist[cur.name].n == 0)
+			{
+				//cout << cur.name << " 다먹고 떠남\n";
+				guestlist[cur.name].out = true;
+				guests -= 1;
+			}
+		}
+	}
+}
+
 void makeSushi()
 {
 	long t, pos;
 	string name;
 
 	cin >> t >> pos >> name;
+
+	moveSushi(t);
 	
 	if (guestlist.find(name) == guestlist.end())
 	{
@@ -73,10 +104,13 @@ void makeSushi()
 
 void welcomeGuset()
 {
+
 	long t, pos, n;
 	string name;
 
 	cin >> t >> pos >> name >> n;
+
+	moveSushi(t);
 
 	guestlist.insert({ name, guest(pos, t, n) });
 
@@ -111,31 +145,9 @@ void welcomeGuset()
 			guests += 1;
 		}
 	}
-
-	while (!pq.empty())
+	else
 	{
-		if (pq.top().expected > t) break;
-
-		eaten_sushi cur = pq.top();
-		pq.pop();
-
-		//cout << cur.name << " " << cur.expected << "\n";
-
-		guest g = guestlist[cur.name];
-
-		if (g.out) leftover += 1;
-		else if (g.n == 0) leftover += 1;
-		else if (!g.out && g.n > 0)
-		{
-			//cout << cur.expected << "에 스시 먹는 " << cur.name << "\n";
-			guestlist[cur.name].n -= 1;
-
-			if (guestlist[cur.name].n == 0)
-			{
-				guestlist[cur.name].out = true;
-				guests -= 1;
-			}
-		}
+		guests += 1;
 	}
 }
 
@@ -144,32 +156,7 @@ void takePicture()
 	long t;
 	cin >> t;
 
-	while (!pq.empty())
-	{
-		if (pq.top().expected > t) break;
-
-		eaten_sushi cur = pq.top();
-		pq.pop();
-
-		//cout << cur.name << " " << cur.expected << "\n";
-
-		guest g = guestlist[cur.name];
-
-		if (g.out) leftover += 1;
-		else if (g.n == 0) leftover += 1;
-		else if(!g.out && g.n>0)
-		{
-			//cout << cur.expected << "에 스시 먹는 " << cur.name << "\n";
-			guestlist[cur.name].n -= 1;
-
-			if (guestlist[cur.name].n == 0)
-			{
-				guestlist[cur.name].out = true;
-				guests -= 1;
-			}
-		}
-	}
-
+	moveSushi(t);
 
 	long sum = 0;
 	for (auto it = noGuestSushi.begin(); it != noGuestSushi.end(); it++)
@@ -177,9 +164,7 @@ void takePicture()
 		sum += it->second.size();
 	}
 
-
 	cout << guests << " " << sum + leftover + pq.size() << "\n";
-
 }
 
 int main()
