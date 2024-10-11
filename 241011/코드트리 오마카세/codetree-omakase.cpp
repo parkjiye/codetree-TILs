@@ -88,19 +88,17 @@ void welcomeGuset()
 			leftover += GuestSushi[name].size();
 			GuestSushi.erase(name);
 			guestlist.erase(name);
-			//cout << "다먹고 떠남" << "\n";
 		}
 		else
 		{
 			guestlist[name].n = n;
-			//cout << name << " " << GuestSushi[name].size() << "\n";
 		}
 	}
 }
 
 void takePicture()
 {
-	long t;//촬영시간
+	long t;
 	cin >> t;
 
 	for (auto it = GuestSushi.begin(); it != GuestSushi.end(); it++)
@@ -111,8 +109,6 @@ void takePicture()
 			vector<sushi> v = GuestSushi[it->first];
 
 			guest g = guestlist[it->first];
-
-			//cout << "손님 " << it->first << " 존재 스시 " << v.size() << " 먹을 스시 " << g.n << "\n";
 
 			for (int i = 0; i < v.size(); i++)
 			{
@@ -128,7 +124,7 @@ void takePicture()
 
 				if (g.n == 0)
 				{
-					GuestSushi[it->first].push_back(cur);
+					break;
 				}
 				else
 				{
@@ -146,14 +142,13 @@ void takePicture()
 			if (g.n == 0)
 			{
 				leftover += GuestSushi[it->first].size();
+				GuestSushi[it->first].clear();
 				cur_guests.erase(it->first);
 				guestlist.erase(it->first);
-				//cout << "다먹고 떠남 " << it->first << "\n";
 			}
 			else
 			{
 				guestlist[it->first].n = g.n;
-				//cout << it->first << " 남은 스시 " << GuestSushi[it->first].size() << "\n";
 			}
 		}
 	}
@@ -169,9 +164,9 @@ void takePicture()
 		sum += it->second.size();
 	}
 
-	cout << cur_guests.size() <<" "<<sum+leftover<<"\n";
-}
+	cout << cur_guests.size() << " " << sum + leftover << "\n";
 
+}
 
 int main()
 {
