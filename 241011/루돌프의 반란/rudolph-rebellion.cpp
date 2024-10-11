@@ -173,7 +173,7 @@ void crash(int d, int s, int m, int score)
 	{
 		if (myMap[nxt.x][nxt.y] == 0)
 		{
-			myMap[santas[s].pos.x][santas[s].pos.y] = 0;
+			//myMap[santas[s].pos.x][santas[s].pos.y] = 0;
 			santas[s].pos = nxt;
 			myMap[santas[s].pos.x][santas[s].pos.y] = s;
 		}
